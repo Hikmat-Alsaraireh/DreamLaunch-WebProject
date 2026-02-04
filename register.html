@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+
+<div class="container mt-5">
+<div class="row justify-content-center">
+<div class="col-md-5 bg-black p-4 rounded">
+
+<h3 class="text-center mb-3">Create Account</h3>
+
+<form action="register.php" method="post" id="regForm">
+<input class="form-control mb-2" name="username" placeholder="Username">
+<input class="form-control mb-2" name="email" placeholder="Email">
+<select class="form-control mb-2" name="industry">
+<option value="">Industry</option>
+<option>Tech</option>
+<option>Health</option>
+<option>AI</option>
+<option>Green Energy</option>
+<option>Design</option>
+<option>Other</option>
+</select>
+<input type="password" class="form-control mb-2" id="p1" name="password" placeholder="Password">
+<input type="password" class="form-control mb-2" id="p2" placeholder="Confirm Password">
+<div class="form-check mb-2">
+<input class="form-check-input" type="checkbox" onclick="togglePassword()">
+<label class="form-check-label">Show Password</label>
+</div>
+<button class="btn btn-info w-100">Register</button>
+<p class="text-danger text-center mt-2" id="e"></p>
+
+</form>
+
+</div>
+</div>
+</div>
+
+<script>
+function togglePassword() {
+    if (p1.type === "password") {
+        p1.type = "text";
+        p2.type = "text";
+    } else {
+        p1.type = "password";
+        p2.type = "password";
+    }
+}
+
+document.getElementById("regForm").onsubmit = function (event) {
+
+    let usernameValue = username.value.trim();
+    let emailValue = email.value.trim();
+    let industryValue = industry.value;
+    let passwordValue = p1.value;
+    let confirmPasswordValue = p2.value;
+
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+
+    if (usernameValue === "" ||
+        emailValue === "" ||
+        industryValue === "" ||
+        passwordValue === "" ||
+        confirmPasswordValue === "") {
+
+        event.preventDefault();
+        document.getElementById("e").innerText = "All fields are required";
+        return;
+    }
+
+    if (!emailPattern.test(emailValue)) {
+        event.preventDefault();
+        document.getElementById("e").innerText = "Invalid email format";
+        return;
+    }
+
+    if (!passwordPattern.test(passwordValue)) {
+        event.preventDefault();
+        document.getElementById("e").innerText =
+            "Password must be 8+ chars, include a number and a symbol";
+        return;
+    }
+
+    if (passwordValue !== confirmPasswordValue) {
+        event.preventDefault();
+        document.getElementById("e").innerText = "Passwords do not match";
+        return;
+    }
+};
+</script>
+
+
+</body>
+</html>
